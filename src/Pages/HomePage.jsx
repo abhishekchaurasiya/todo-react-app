@@ -24,12 +24,11 @@ const HomePage = () => {
       });
 
       toast.success(response.data.message)
-      setLoading(false)
       setRefresh((prev) => !prev)
     } catch (error) {
       toast.error(error.response.data.message)
-      setLoading(false)
     }
+    setLoading(false)
   }
 
   const deleteHandler = async (id) => {
