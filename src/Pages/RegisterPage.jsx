@@ -4,9 +4,10 @@ import { NavLink, Navigate, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import { baseUrl } from '../baseUrl';
 import { AppContext } from '../context/AppContextProvider';
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai"
 
 const RegisterPage = () => {
-    const { loading, setLoading, isAuthenticated, setIsAuthenticated } = useContext(AppContext)
+    const { loading, setLoading, isAuthenticated, setIsAuthenticated, showPassword, setShowPassword } = useContext(AppContext)
 
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -39,7 +40,7 @@ const RegisterPage = () => {
     if (isAuthenticated) return <Navigate to="/" />
 
     return (
-        <div className='flex items-center justify-center w-full h-[80vh] '>
+        <div className='flex items-center justify-center w-[500px] h-[80vh] m-auto '>
             <section className='shadow-[0px_10px_1px_rgba(221,_221,_221,_1),_0_10px_20px_rgba(204,_204,_204,_1)] py-5 px-14 rounded-md'>
                 <form className=' flex flex-col items-center gap-y-1' onSubmit={submitHandler}>
                     <label>
@@ -57,7 +58,7 @@ const RegisterPage = () => {
                     </label>
                     <label>
                         <p className='text-gray-700 font-bold text-[18px] py-1 hover:animate-bounce hover:text-red-950 transition delay-300 ease-in w-20'>
-                        Email<sup className='text-red-500'>*</sup></p>
+                            Email<sup className='text-red-500'>*</sup></p>
                         <input
                             type="email"
                             placeholder='Enter your email...'
@@ -71,14 +72,25 @@ const RegisterPage = () => {
                     <label>
                         <p className='text-gray-700 font-bold text-[18px] py-1 hover:animate-bounce hover:text-red-950 transition delay-300 ease-in w-20'>
                             Password<sup className='text-red-500'>*</sup></p>
-                        <input
-                            type="password"
-                            placeholder='Enter your password...'
-                            required
-                            value={password}
-                            onChange={(event) => setPassword(event.target.value)}
-                            className=" bg-blue-950 text-white rounded-md outline-none border-2 border-black p-1 w-[300px] px-2"
-                        />
+                        <div className='flex items-center'>
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                placeholder='Enter your password...'
+                                required
+                                value={password}
+                                onChange={(event) => setPassword(event.target.value)}
+                                className="relative bg-blue-950 text-white rounded-md outline-none border-2 border-black p-1 w-[300px] px-2"
+                            />
+                            <div className='w-[100px] fixed left-[58%] right-[30%]'>
+                                <span className='text-white'
+                                    onClick={() => setShowPassword((prev) => !prev)}>
+                                    {
+                                        showPassword ? (<AiFillEye />) : (<AiFillEyeInvisible />)
+                                    }
+                                </span>
+                            </div>
+                        </div>
+
 
                     </label>
                     <div>

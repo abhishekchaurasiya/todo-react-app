@@ -4,10 +4,11 @@ import { AppContext } from '../context/AppContextProvider'
 import axios from 'axios'
 import { baseUrl } from '../baseUrl'
 import { toast } from 'react-hot-toast'
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 
 const LoginPage = () => {
 
-    const { setLoading, isAuthenticated, setIsAuthenticated, loading } = useContext(AppContext)
+    const { setLoading, isAuthenticated, setIsAuthenticated, loading, showPassword, setShowPassword } = useContext(AppContext)
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -56,14 +57,25 @@ const LoginPage = () => {
                     <label>
                         <p className='text-gray-700 font-bold text-[18px] py-1 hover:animate-bounce hover:text-red-950 transition delay-300 ease-in w-20'>
                             Password<sup className='text-red-500'>*</sup></p>
-                        <input
-                            type="password"
-                            placeholder='Enter your email...'
-                            required
-                            value={password}
-                            onChange={(event) => setPassword(event.target.value)}
-                            className=" bg-blue-950 text-white rounded-md outline-none border-2 border-black p-1 w-[300px] px-2"
-                        />
+                        <div className=' flex flex-col justify-center items-center'>
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                placeholder='Enter your email...'
+                                required
+                                value={password}
+                                onChange={(event) => setPassword(event.target.value)}
+                                className="relative bg-blue-950 text-white rounded-md outline-none border-2 border-black p-1 w-[300px] px-2"
+                            />
+                            <div className='w-[100px] fixed left-[58%] right-[30%]'>
+                                <span className='text-white'
+                                    onClick={() => setShowPassword((prev) => !prev)}>
+                                    {
+                                        showPassword ? (<AiFillEye />) : (<AiFillEyeInvisible />)
+                                    }
+                                </span>
+                            </div>
+                        </div>
+
 
                     </label>
                     <div>

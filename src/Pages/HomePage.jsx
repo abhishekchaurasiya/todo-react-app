@@ -33,16 +33,18 @@ const HomePage = () => {
   }
 
   const deleteHandler = async (id) => {
+    setLoading(true)
     try {
       const response = await axios.delete(`${baseUrl}/task/${id}`, {
         withCredentials: true
       });
 
       toast.success(response.data.message)
+      setLoading(false)
       setRefresh((prev) => !prev)
     } catch (error) {
       toast.error(error.response.data.message)
-
+      setLoading(false)
     }
   };
 
@@ -58,6 +60,8 @@ const HomePage = () => {
         },
         withCredentials: true
       })
+      setTitle("")
+      setDescription("")
       toast.success("Successfully taks aded!")
       setLoading(false)
       setRefresh((prev) => !prev)
@@ -87,16 +91,16 @@ const HomePage = () => {
   if (!isAuthenticated) return <Navigate to={"/login"} />;
 
   return (
-    <div className='grid justify-center items-center'>
-      <div>
-        <form onSubmit={submitHandler} className='flex flex-col gap-y-0'>
+    <div className='grid justify-center items-center mt-14'>
+      <div className='shadow-[0px_10px_1px_rgba(221,_221,_221,_1),_0_10px_20px_rgba(204,_204,_204,_1)] py-5 px-14 rounded-md m-auto bg-[#e6faf9] w-[600px]'>
+        <form onSubmit={submitHandler} className='flex flex-col'>
           <input
             type="text"
             placeholder='Enter your title'
             required
             value={title}
             onChange={(event) => setTitle(event.target.value)}
-            className=" bg-blue-950 text-white mb-2"
+            className=" bg-blue-950 text-white rounded-md py-1 px-2"
           />
           <br />
           <input
@@ -105,14 +109,18 @@ const HomePage = () => {
             required
             value={description}
             onChange={(event) => setDescription(event.target.value)}
-            className=" bg-blue-950 text-white mb-2"
+            className=" bg-blue-950 text-white rounded-md py-1 px-2"
           />
           <br />
-          <button type='submit' disabled={loading}>Add Task</button>
+          <button
+            className='bg-blue-950 py-1 px-10 rounded-full mt-2 text-slate-100 font-semibold w-[200px] m-auto'
+            type='submit' disabled={loading}>
+            Add Task
+          </button>
         </form>
       </div>
       {/* Task section */}
-      <div>
+      <div className='w-[600px] rounded-md m-auto mt-7'>
         {
           task.map((item, id) => (
             <TodoItem {...item} key={id}
